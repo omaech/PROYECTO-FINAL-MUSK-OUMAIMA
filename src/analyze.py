@@ -37,7 +37,7 @@ def generate_report():
     objetos_ventas = []
     for index, venta in df_ventas.iterrows():
         objeto_venta = Sale(
-            sale_id=int(venta["sale_id"]),
+            sale_id=str(venta["sale_id"]),
             client_id=int(venta["client_id"]),
             product=str(venta["product"]),
             category=str(venta["category"]),
