@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import json
 import os
 import pandas as pd
@@ -116,7 +119,7 @@ def main():
     categoria_objetivo = "Electronics"
     ventas_categoria_objetivo = filter_sales_by_category(coleccion_ventas.sales, categoria_objetivo)
     
-    max_ventas_categoria = -1
+    max_ventas_categoria = 0
     id_cliente_top_categoria = None
     
     for cliente in coleccion_clientes.clients:

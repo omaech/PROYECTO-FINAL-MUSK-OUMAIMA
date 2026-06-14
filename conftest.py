@@ -1,0 +1,1 @@
+# Este archivo ayuda a pytest a reconocer la carpeta 'src' en el PYTHONPATH

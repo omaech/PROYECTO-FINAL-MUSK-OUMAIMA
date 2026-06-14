@@ -3,6 +3,7 @@ class Client:
     """
     Representa un cliente individual
     """
+    
     def __init__(self, client_id: int, name: str, country: str, signup_date: str):
     
          self.client_id = client_id
