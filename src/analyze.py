@@ -79,9 +79,9 @@ def generate_report():
         diccionario_cliente = {
             "client_id": id_act,
             "name": cliente.name,
-            "total_spent": float(gasto_total),
+            "total_spent":  round(float(gasto_total),2),
             "sale_count": int(num_ventas),
-            "average_sale": float(promedio_gasto)
+            "average_sale": round(float(promedio_gasto), 2)
         }
         lista_clientes.append(diccionario_cliente)
 
@@ -112,7 +112,7 @@ def generate_report():
     ventas_por_categoria = df_ventas.groupby("category")["amount"].sum()
     categorias = {}
     for cat, total in ventas_por_categoria.items():
-        categorias[str(cat)] = float(total)
+        categorias[str(cat)] =  round(float(total),2)
 
     # --- C.8: Cliente con más ventas en una categoría específica ---
     # Usamos la función de functional_utils para filtrar una categoría 
@@ -145,14 +145,14 @@ def generate_report():
     
     dic_mensual = {}
     for mes, total in ventas_mensuales.items():
-        dic_mensual[str(mes)] = float(total)
+        dic_mensual[str(mes)] =  round(float(total), 2)
 
     # 4. ESTRUCTURACIÓN Y EXPORTACIÓN DEL INFORME JSON
     estructura_final = {
         "summary": {
             "total_clients": int(total_clientes),
             "total_sales": int(total_ventas),
-            "total_revenue": float(suma_ingresos_totales)
+            "total_revenue":  round(float(suma_ingresos_totales), 2)
         },
         "clients": lista_clientes,
         "top_client_by_country": cliente_por_pais,
