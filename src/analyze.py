@@ -134,7 +134,7 @@ def generate_report():
     for cliente in coleccion_clientes.clients:
         gasto = coleccion_ventas.total_amount_by_client(cliente.client_id)
         if gasto > 500.0:
-            lista_clientes_max_gasto.append(cliente.client_id)
+            lista_clientes_max_gasto.append(cliente.name)
 
     # --- C.10: Ventas acumuladas mes a mes ---
     df_ventas_acumulado = df_ventas.copy()
