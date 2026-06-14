@@ -50,6 +50,13 @@ def generate_report():
     coleccion_clientes = ClientCollection(objetos_clientes)
     coleccion_ventas = SalesCollection(objetos_ventas)
 
+    df_clientes_raw = pd.DataFrame(datos_json_clientes)
+    df_clientes_raw["client_id"] = df_clientes_raw["client_id"].astype(int)
+    df_ventas["client_id"] = df_ventas["client_id"].astype(int)
+    
+    # Cruzamos las tablas con merge
+    df_merged = pd.merge(df_ventas, df_clientes_raw, on="client_id", how="inner")
+    
     # 3. Implentación de los 10 cálculos 
 
     # --- C.1: Número total de clientes ---
@@ -86,27 +93,16 @@ def generate_report():
         lista_clientes.append(diccionario_cliente)
 
     # --- C.6: Cliente con mayor gasto por país ---
-    # Agrupamos primero qué clientes pertenecen a cada país
-    paises = {}
-    for cliente in coleccion_clientes.clients:
-        pais = cliente.country
-        if pais not in paises:
-            paises[pais] = []
-        paises[pais].append(cliente)
-
-    # Buscamos el cliente que más gastó en cada país
+    # Agrupamos clientes por país
+    gasto_pais_cliente = df_merged.groupby(["country", "name"])["amount"].sum().reset_index()
+    
+    # Obtenemos la fila con el máximo gasto para cada país
+    idx_max_gasto = gasto_pais_cliente.groupby("country")["amount"].idxmax()
+    df_max_clients = gasto_pais_cliente.loc[idx_max_gasto]
+    
     cliente_por_pais = {}
-    for pais, lista_clientes_pais in paises.items():
-        max_gasto = -1.0
-        nombre_cliente = None
-        
-        for cliente in lista_clientes_pais:
-            gasto = coleccion_ventas.total_amount_by_client(cliente.client_id)
-            if gasto > max_gasto:
-                max_gasto = gasto
-                nombre_cliente = cliente.name
-                
-        cliente_por_pais[pais] = nombre_cliente
+    for index, row in df_max_clients.iterrows():
+        cliente_por_pais[str(row["country"])] = str(row["name"])
 
     # --- C.7: Total de ventas por categoría ---
     ventas_por_categoria = df_ventas.groupby("category")["amount"].sum()
