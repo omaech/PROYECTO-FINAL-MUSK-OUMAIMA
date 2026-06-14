@@ -12,7 +12,7 @@ from src.client_collection import ClientCollection
 from src.sales_collection import SalesCollection
 from src.functional_utils import filter_sales_by_category, filter_sales_by_client
 
-def main():
+def generate_report():
     # 1. Rutas y lectura de archivos
     clientes = os.path.join("data", "clients.json")
     ventas = os.path.join("data", "sales.csv")
@@ -165,7 +165,8 @@ def main():
     ruta_salida = "output_report.json"
     with open(ruta_salida, "w", encoding="utf-8") as fichero:
         json.dump(estructura_final, fichero, indent=2, ensure_ascii=False)
-        
+    
+    return estructura_final
 
 if __name__ == "__main__":
-    main()
+    generate_report()
