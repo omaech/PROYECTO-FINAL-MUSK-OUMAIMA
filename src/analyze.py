@@ -98,15 +98,15 @@ def generate_report():
     cliente_por_pais = {}
     for pais, lista_clientes_pais in paises.items():
         max_gasto = -1.0
-        id_cliente = None
+        nombre_cliente = None
         
         for cliente in lista_clientes_pais:
             gasto = coleccion_ventas.total_amount_by_client(cliente.client_id)
             if gasto > max_gasto:
                 max_gasto = gasto
-                id_cliente = cliente.client_id
+                nombre_cliente = cliente.name
                 
-        cliente_por_pais[pais] = id_cliente
+        cliente_por_pais[pais] = nombre_cliente
 
     # --- C.7: Total de ventas por categoría ---
     ventas_por_categoria = df_ventas.groupby("category")["amount"].sum()
